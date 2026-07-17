@@ -15,6 +15,7 @@ from nectar.control import (
     )
 from nectar.vision import ImageHandler
 from nectar.vision.camera import ROSConfig
+from nectar.control.types import RTLMethod
 
 from walking_koala.constants import (
     SIM_IMAGE_SOURCE,
@@ -31,4 +32,20 @@ class ReturnToLaunch(State):
         super().__init__(outcomes=[SUCCEED, ABORT])
 
     def execute(self, blackboard: Blackboard):
-        pass
+        if "drone" not in blackboard:
+            yasmin.YASMIN_LOG_ERROR("Drone not available.")
+            return ABORT
+        
+        drone: MavrosDrone = blackboard["drone"]
+
+        try:
+            yasmin.YASMIN_LOG_INFO(f"Returning to launch at {RTL_ALTITUDE}m...")
+            drone.rtl(
+                altitude=RTL_ALTITUDE,
+                method=RTLMethod.NAVIGATE,
+                land=True,
+            )
+
+        except Exception as e:
+            yasmin.YASMIN_LOG_ERROR(f"Return to launch failed: {e}.")
+            return ABORT
