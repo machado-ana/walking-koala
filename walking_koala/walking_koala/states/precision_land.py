@@ -30,11 +30,12 @@ class PrecisionLand(State):
 
     def execute(self, blackboard: Blackboard):
         drone: MavrosDrone = blackboard["drone"]
-        camera: ImageHandler = blackboard["camera"]
+        # camera: ImageHandler = blackboard["camera"]
 
         try:
             if not self.move_to_base(drone):
                 return ABORT
+            return SUCCEED
 
         except Exception as e:
             yasmin.YASMIN_LOG_ERROR(f"Moving to base failed: {e}")
