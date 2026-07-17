@@ -39,6 +39,13 @@ class ReturnToLaunch(State):
         drone: MavrosDrone = blackboard["drone"]
 
         try:
+            yasmin.YASMIN_LOG_INFO(f"Arming drone...")
+            drone.arm()
+
+            if not drone.is_armed:
+                yasmin.YASMIN_LOG_ERROR("Drone is disarmed.")
+                return ABORT
+
             yasmin.YASMIN_LOG_INFO(f"Returning to launch at {RTL_ALTITUDE}m...")
             drone.rtl(
                 altitude=RTL_ALTITUDE,
