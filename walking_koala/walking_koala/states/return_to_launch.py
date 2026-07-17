@@ -40,18 +40,21 @@ class ReturnToLaunch(State):
 
         try:
             yasmin.YASMIN_LOG_INFO(f"Arming drone...")
-            drone.arm()
-
-            if not drone.is_armed:
-                yasmin.YASMIN_LOG_ERROR("Drone is disarmed.")
-                return ABORT
+            
+            # if not drone.takeoff(RTL_ALTITUDE):
+            #     yasmin.YASMIN_LOG_ERROR("Can not return to launch. Drone takeoff failed.")
+            #     return ABORT
+            # drone.delay(2)
 
             yasmin.YASMIN_LOG_INFO(f"Returning to launch at {RTL_ALTITUDE}m...")
             drone.rtl(
                 altitude=RTL_ALTITUDE,
-                method=RTLMethod.NAVIGATE,
+                method=RTLMethod.NATIVE,
+                precision=0.3,
                 land=True,
             )
+            drone.delay(2)
+            return SUCCEED
 
         except Exception as e:
             yasmin.YASMIN_LOG_ERROR(f"Return to launch failed: {e}.")
