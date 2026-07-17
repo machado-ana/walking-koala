@@ -37,7 +37,7 @@ class Takeoff(State):
         try:
             yasmin.YASMIN_LOG_INFO(f"Taking of to {INITIAL_TAKEOFF_ALTITUDE}m...")
 
-            reached = drone.takeoff(INITIAL_TAKEOFF_ALTITUDE)
+            reached = drone.takeoff(INITIAL_TAKEOFF_ALTITUDE, max_retries=5)
             drone.delay(2)
 
             if not reached:

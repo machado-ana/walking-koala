@@ -41,7 +41,7 @@ class ReturnToLaunch(State):
         drone: MavrosDrone = blackboard["drone"]
 
         try:
-            yasmin.YASMIN_LOG_INFO(f"Arming drone...")
+            yasmin.YASMIN_LOG_INFO(f"Drone taking off...")
             
             if not drone.takeoff(RTL_ALTITUDE):
                 yasmin.YASMIN_LOG_ERROR("Can not return to launch. Drone takeoff failed.")
@@ -49,10 +49,9 @@ class ReturnToLaunch(State):
             drone.delay(2)
 
             yasmin.YASMIN_LOG_INFO(f"Returning to launch at {RTL_ALTITUDE}m...")
-            drone.move_to(
+            drone.move_to_gps(
                 TAKEOFF_LATITUDE,
                 TAKEOFF_LONGITUDE,
-                reference=MoveReference.GPS
             )
             drone.delay(2)
             return SUCCEED
