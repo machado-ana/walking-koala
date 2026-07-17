@@ -1,3 +1,4 @@
+import os
 import cv2
 import numpy as np
 
@@ -13,7 +14,7 @@ from nectar.control import (
     PoseSource,
     SITL_GAZEBO_CONFIG,
     )
-from nectar.vision import ImageHandler
+from nectar.vision import ImageHandler, OpenCVConfig
 from nectar.vision.camera import ROSConfig
 
 from walking_koala.constants import (
@@ -39,10 +40,9 @@ class Initialize(State):
                 compressed=SIM_IMAGE_COMPRESSED,
                 )
             camera = ImageHandler (
-                node=node,
                 image_source=SIM_IMAGE_SOURCE,
                 config=cam_config,
-                show_result="Camera View",
+                image_processing_callback=self.photo_callback,
             )
 
             camera.open()
@@ -61,3 +61,13 @@ class Initialize(State):
         except Exception as e:
             yasmin.YASMIN_LOG_ERROR(f"Initialization failed: {e}")
             return ABORT
+
+    def photo_callback(self, image):        
+        photos_folder = "/src/walking-coala/walking_koala/image_handler_photos"
+        os.makedirs(photos_folder, exist_ok=True)
+
+        raw_path = os.path.join(photos_folder, 'image.png')
+        cv2.imwrite(raw_path, image)
+
+        return image
+    
