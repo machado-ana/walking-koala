@@ -13,6 +13,7 @@ from walking_koala.states import(
     Takeoff,
     PrecisionLand,
     Land,
+    ReturnToLaunch,
 )
 
 class Mission(StateMachine):
@@ -24,19 +25,28 @@ class Mission(StateMachine):
             Initialize(),
             transitions={SUCCEED:"TAKEOFF", ABORT:ABORT}
         )
+
         self.add_state(
             "TAKEOFF",
             Takeoff(),
             transitions={SUCCEED:"PRECISION_LAND", ABORT:"LAND"}
         )
+
         self.add_state(
             "PRECISION_LAND",
             PrecisionLand(),
             transitions={SUCCEED:"LAND", ABORT:"LAND"}
         )
+
         self.add_state(
             "LAND",
             Land(),
+            transitions={SUCCEED:"RTL", ABORT:ABORT}
+        )
+
+        self.add_state(
+            "RTL",
+            ReturnToLaunch(),
             transitions={SUCCEED:SUCCEED, ABORT:ABORT}
         )
 
