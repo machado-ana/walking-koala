@@ -33,6 +33,7 @@ class Land(State):
             return ABORT
         
         drone: MavrosDrone = blackboard["drone"]
+        camera: ImageHandler = blackboard["camera"]
 
         try: 
             drone.land()
@@ -40,7 +41,8 @@ class Land(State):
             yasmin.YASMIN_LOG_INFO("Landed.")
 
             if "camera" in blackboard and blackboard["camera"]:
-                blackboard["camera"].cleanup()
+                camera.cleanup()
+                camera.close()
             
             return SUCCEED
         

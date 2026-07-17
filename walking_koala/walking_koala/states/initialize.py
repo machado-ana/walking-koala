@@ -59,6 +59,8 @@ class Initialize(State):
             )
             blackboard["camera"] = camera
 
+            camera.close()
+
         except Exception as e:
             yasmin.YASMIN_LOG_ERROR(f"Initialization failed: {e}")
             return ABORT
