@@ -33,8 +33,6 @@ class Initialize(State):
             drone = DroneFactory.create("mavros", config)
             blackboard["drone"] = drone
 
-            return SUCCEED
-
             yasmin.YASMIN_LOG_INFO("Initializing camera...")
             cam_config = ROSConfig(
                 topic=SIM_IMAGE_SOURCE, 
@@ -58,8 +56,7 @@ class Initialize(State):
                 f"Camera ready. Frame Shape: {frame.shape}"
             )
             blackboard["camera"] = camera
-
-            camera.close()
+            return SUCCEED
 
         except Exception as e:
             yasmin.YASMIN_LOG_ERROR(f"Initialization failed: {e}")
