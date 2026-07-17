@@ -43,8 +43,10 @@ class Initialize(State):
             camera = ImageHandler (
                 node=node,
                 image_source=SIM_IMAGE_SOURCE,
-                config=cam_config
+                config=cam_config,
+                show_result="Camera View",
             )
+
             camera.open()
             frame = camera.take_photo()
 
