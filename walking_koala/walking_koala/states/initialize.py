@@ -28,12 +28,12 @@ class Initialize(State):
 
     def execute(self, blackboard: Blackboard):
         try:
-            node = YasminNode.get_instance()
-
             yasmin.YASMIN_LOG_INFO("Initializing drone...")
             config = SITL_GAZEBO_CONFIG
-            drone = DroneFactory.create("mavros", config, node)
+            drone = DroneFactory.create("mavros", config)
             blackboard["drone"] = drone
+
+            return SUCCEED
 
         # Don't know if camera will be initialized here
         # yasmin.YASMIN_LOG_INFO("Initializing camera...")
