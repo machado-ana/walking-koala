@@ -3,7 +3,10 @@ import rclpy
 import yasmin
 from yasmin import StateMachine
 from yasmin_ros import set_ros_loggers
+from yasmin_ros.yasmin_node import YasminNode
 from yasmin_ros.basic_outcomes import SUCCEED, FAIL, TIMEOUT, ABORT
+
+import nectar
 
 from walking_koala.states import(
     Initialize,
@@ -24,7 +27,7 @@ class Mission(StateMachine):
         self.add_state(
             "TAKEOFF",
             Takeoff(),
-            transitions={SUCCEED:"LAND", ABORT:"LAND"}
+            transitions={SUCCEED:"PRECISION_LAND", ABORT:"LAND"}
         )
         self.add_state(
             "PRECISION_LAND",
@@ -46,8 +49,10 @@ def main():
 
     mission_sm = Mission()
 
+    nectar.use_executor(YasminNode.get_instance()._executor)
+
     try:
-        final_outcome = mission_sm
+        final_outcome = mission_sm()
         yasmin.YASMIN_LOG_INFO(final_outcome)
     except KeyboardInterrupt:
         if mission_sm.is_running():
