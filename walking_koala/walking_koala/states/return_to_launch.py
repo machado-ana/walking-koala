@@ -15,7 +15,7 @@ from nectar.control import (
     )
 from nectar.vision import ImageHandler
 from nectar.vision.camera import ROSConfig
-from nectar.control.types import RTLMethod
+from nectar.control.types import RTLMethod, MoveReference
 
 from walking_koala.constants import (
     SIM_IMAGE_SOURCE,
@@ -24,6 +24,8 @@ from walking_koala.constants import (
     RTL_ALTITUDE,
     BASE_LATITUDE,
     BASE_LONGITUDE,
+    TAKEOFF_LATITUDE,
+    TAKEOFF_LONGITUDE,
 )
 
 
@@ -41,17 +43,16 @@ class ReturnToLaunch(State):
         try:
             yasmin.YASMIN_LOG_INFO(f"Arming drone...")
             
-            # if not drone.takeoff(RTL_ALTITUDE):
-            #     yasmin.YASMIN_LOG_ERROR("Can not return to launch. Drone takeoff failed.")
-            #     return ABORT
-            # drone.delay(2)
+            if not drone.takeoff(RTL_ALTITUDE):
+                yasmin.YASMIN_LOG_ERROR("Can not return to launch. Drone takeoff failed.")
+                return ABORT
+            drone.delay(2)
 
             yasmin.YASMIN_LOG_INFO(f"Returning to launch at {RTL_ALTITUDE}m...")
-            drone.rtl(
-                altitude=RTL_ALTITUDE,
-                method=RTLMethod.NATIVE,
-                precision=0.3,
-                land=True,
+            drone.move_to(
+                TAKEOFF_LATITUDE,
+                TAKEOFF_LONGITUDE,
+                reference=MoveReference.GPS
             )
             drone.delay(2)
             return SUCCEED
