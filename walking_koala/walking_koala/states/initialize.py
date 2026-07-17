@@ -35,26 +35,27 @@ class Initialize(State):
 
             return SUCCEED
 
-        # Don't know if camera will be initialized here
-        # yasmin.YASMIN_LOG_INFO("Initializing camera...")
-        # cam_config = ROSConfig(
-        #     topic=SIM_IMAGE_SOURCE, 
-        #     compressed=SIM_IMAGE_COMPRESSED,
-        #     )
-        # camera = ImageHandler (
-        #     node=node,
-        #     image_source=SIM_IMAGE_SOURCE,
-        #     config=cam_config
-        # )
-        # camera.open()
-        # frame = camera.take_photo()
-        # if frame is None:
-        #     yasmin.YASMIN_LOG_ERROR("Failed to get frame from camera.")
-        #     return ABORT
-        # yasmin.YASMIN_LOG_INFO(
-        #     f"Camera ready. Frame Shape: {frame.shape}"
-        #     )
-        # blackboard["camera"] = camera
+            yasmin.YASMIN_LOG_INFO("Initializing camera...")
+            cam_config = ROSConfig(
+                topic=SIM_IMAGE_SOURCE, 
+                compressed=SIM_IMAGE_COMPRESSED,
+                )
+            camera = ImageHandler (
+                node=node,
+                image_source=SIM_IMAGE_SOURCE,
+                config=cam_config
+            )
+            camera.open()
+            frame = camera.take_photo()
+
+            if frame is None:
+                yasmin.YASMIN_LOG_ERROR("Failed to get frame from camera.")
+                return ABORT
+
+            yasmin.YASMIN_LOG_INFO(
+                f"Camera ready. Frame Shape: {frame.shape}"
+            )
+            blackboard["camera"] = camera
 
         except Exception as e:
             yasmin.YASMIN_LOG_ERROR(f"Initialization failed: {e}")

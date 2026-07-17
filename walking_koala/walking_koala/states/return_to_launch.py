@@ -44,7 +44,7 @@ class ReturnToLaunch(State):
             yasmin.YASMIN_LOG_INFO(f"Drone taking off...")
             
             if not drone.takeoff(RTL_ALTITUDE):
-                yasmin.YASMIN_LOG_ERROR("Can not return to launch. Drone takeoff failed.")
+                yasmin.YASMIN_LOG_ERROR("Cannot return to launch. Drone takeoff failed.")
                 return ABORT
             drone.delay(2)
 
