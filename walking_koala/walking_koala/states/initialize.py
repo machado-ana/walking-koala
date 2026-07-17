@@ -4,7 +4,7 @@ import numpy as np
 import yasmin
 from yasmin import State, Blackboard
 from yasmin_ros.yasmin_node import YasminNode
-from yasmin_ros.basic_outcomes import SUCEED, ABORT
+from yasmin_ros.basic_outcomes import SUCCEED, ABORT
 
 from nectar.control import (
     DroneFactory,
@@ -24,7 +24,7 @@ from walking_koala.constants import (
 
 class Initialize(State):
     def __init__(self):
-        super().__init__(outcomes=[SUCEED, ABORT])
+        super().__init__(outcomes=[SUCCEED, ABORT])
 
     def execute(self, blackboard: Blackboard):
         try:

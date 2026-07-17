@@ -3,7 +3,7 @@ import rclpy
 import yasmin
 from yasmin import StateMachine
 from yasmin_ros import set_ros_loggers
-from yasmin_ros.basic_outcomes import SUCEED, FAIL, TIMEOUT, ABORT
+from yasmin_ros.basic_outcomes import SUCCEED, FAIL, TIMEOUT, ABORT
 
 from walking_koala.states import(
     Initialize,
@@ -14,27 +14,27 @@ from walking_koala.states import(
 
 class Mission(StateMachine):
     def __init__(self):
-        super().__init__(outcomes=[SUCEED, ABORT])
+        super().__init__(outcomes=[SUCCEED, ABORT])
 
         self.add_state(
             "INITIALIZE",
             Initialize(),
-            transitions={SUCEED:"TAKEOFF", ABORT:ABORT}
+            transitions={SUCCEED:"TAKEOFF", ABORT:ABORT}
         )
         self.add_state(
             "TAKEOFF",
             Takeoff(),
-            transitions={SUCEED:"LAND", ABORT:"LAND"}
+            transitions={SUCCEED:"LAND", ABORT:"LAND"}
         )
         self.add_state(
             "PRECISION_LAND",
             PrecisionLand(),
-            transitions={SUCEED:"LAND", FAIL: "LAND", TIMEOUT: "LAND", ABORT:"LAND"}
+            transitions={SUCCEED:"LAND", ABORT:"LAND"}
         )
         self.add_state(
             "LAND",
             Land(),
-            transitions={SUCEED:SUCEED, ABORT:ABORT}
+            transitions={SUCCEED:SUCCEED, ABORT:ABORT}
         )
 
         self.set_start_state("INITIALIZE")
