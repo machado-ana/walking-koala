@@ -31,7 +31,7 @@ class Takeoff(State):
         if "drone" not in blackboard:
             yasmin.YASMIN_LOG_ERROR("Drone not available.")
             return ABORT
-        
+
         drone: MavrosDrone = blackboard["drone"]
 
         try:

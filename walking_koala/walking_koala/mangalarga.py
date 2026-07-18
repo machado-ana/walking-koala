@@ -55,11 +55,11 @@ class Mission(StateMachine):
 def main():
     rclpy.init()
 
+    nectar.use_executor(YasminNode.get_instance()._executor)
+
     set_ros_loggers()
 
     mission_sm = Mission()
-
-    nectar.use_executor(YasminNode.get_instance()._executor)
 
     try:
         final_outcome = mission_sm()
