@@ -63,7 +63,7 @@ class Initialize(State):
             return ABORT
 
     def photo_callback(self, image):        
-        photos_folder = "/src/walking-coala/walking_koala/image_handler_photos"
+        photos_folder = "image_handler_photos"
         os.makedirs(photos_folder, exist_ok=True)
 
         raw_path = os.path.join(photos_folder, 'image.png')
