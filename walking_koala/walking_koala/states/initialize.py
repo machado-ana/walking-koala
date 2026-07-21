@@ -63,11 +63,11 @@ class Initialize(State):
             return ABORT
 
     def photo_callback(self, image):        
-        photos_folder = "image_handler_photos"
-        os.makedirs(photos_folder, exist_ok=True)
+        # photos_folder = "image_handler_photos"
+        # os.makedirs(photos_folder, exist_ok=True)
 
-        raw_path = os.path.join(photos_folder, 'image.png')
-        cv2.imwrite(raw_path, image)
+        # raw_path = os.path.join(photos_folder, 'image.png')
+        # cv2.imwrite(raw_path, image)
 
         return image
     
